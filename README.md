@@ -1,4 +1,4 @@
-MR.CUE
+RMR.ICP
 =======
   
   **RMR.ICP** is a package for Robust Mendelian Randomization method to account for Idiosyncratic and Correlated Pleiotropy.
