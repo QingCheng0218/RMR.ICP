@@ -4,8 +4,8 @@
 #include <thread>
 #include <mutex>
 
-#include "GibbsAlpGamEtaW_ptr.hpp"
-
+#include "GibbsAlpGamEtaW_ptr_v7.hpp"
+#include "function.hpp"
 #include <ctime>
 
 using namespace Rcpp;
@@ -331,7 +331,7 @@ ObjRMR RMRLDobj(arma::field<vec> F4gammah, arma::field<vec> F4Gammah,
   double bal = opts -> bal;
   double a = opts -> a;
   double b = opts -> b;
-  double v = opts -> v;
+  vec v = opts -> v;
   uword maxIter = opts -> maxIter;
   uword thin = opts -> thin;
   uword burnin = opts -> burnin;
@@ -339,7 +339,7 @@ ObjRMR RMRLDobj(arma::field<vec> F4gammah, arma::field<vec> F4Gammah,
   
   // ----------------------------------------------------------------------
   // initial values
-  double sgga2 = 1; double sgal2 = 1; 
+  double sgga2 = 0.001; double sgal2 = 0.001; 
   double beta1 = 0.01; double beta2 = 0.01; 
   double ome = 0.1; 
   
@@ -419,6 +419,8 @@ ObjRMR RMRLDobj(arma::field<vec> F4gammah, arma::field<vec> F4Gammah,
   double invsgga2, invsgal2, logw;
   vec Mu2 = zeros(nblocks, 1);
   vec MuA2 = zeros(nblocks, 1);
+  
+  clock_t t1 = clock();
   for(int iter = 0; iter < (int_fast32_t)(maxIter + burnin); iter ++){
     logw = log(ome /( 1 - ome));
     invsgga2 = 1. / sgga2;
@@ -529,6 +531,12 @@ ObjRMR RMRLDobj(arma::field<vec> F4gammah, arma::field<vec> F4Gammah,
     // cout <<"wpa2:" << wpa2 << endl;
     // 
     // cout << "--------------------------------------" << endl;
+    
+    // if (iter % 500 == 0 && iter != 0){
+    //   cout << iter << "-th Iteration" << ",";
+    //   cout << "Elapsed time is " << (clock() - t1)*1.0 / CLOCKS_PER_SEC << " sec" << endl;
+    // }
+    // 
     if(iter >= (int)burnin){
       if((iter - burnin) % thin ==0){
         Sgga2Res[lt] = sgga2;
@@ -584,7 +592,7 @@ Rcpp::List RMRICPSim(arma::vec &gammah, arma::vec &Gammah, arma::vec &se1, arma:
                              opt["a"], opt["b"], opt["v"], opt["maxIter"], opt["thin"], opt["burnin"], opt["coreNum"]);
   }
   if (Rf_isNull(opts)){
-    lp_opt = new Options_RMR();
+    lp_opt = new Options_RMR(nblocks);
   }
   
   
@@ -625,8 +633,9 @@ Rcpp::List RMRICP(arma::field<vec> F4gammah, arma::field<vec> F4Gammah,
     lp_opt = new Options_RMR(opt["agm"], opt["bgm"], opt["aal"], opt["bal"],
                              opt["a"], opt["b"], opt["v"], opt["maxIter"], opt["thin"], opt["burnin"], opt["coreNum"]);
   }
+  uword nblocks = F4Rblock.size();
   if (Rf_isNull(opts)){
-    lp_opt = new Options_RMR();
+    lp_opt = new Options_RMR(nblocks);
   }
   
   

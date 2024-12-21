@@ -37,6 +37,14 @@ RMRICP <- function(F4gammah, F4Gammah, F4se1, F4se2, F4Rblock, opts = NULL) {
     .Call(`_RMR_ICP_RMRICP`, F4gammah, F4Gammah, F4se1, F4se2, F4Rblock, opts)
 }
 
+Cal_block_SimR <- function(block_inf, X, lam) {
+    .Call(`_RMR_ICP_Cal_block_SimR`, block_inf, X, lam)
+}
+
+fastSigLm <- function(y, X) {
+    .Call(`_RMR_ICP_fastSigLm`, y, X)
+}
+
 rcpparma_hello_world <- function() {
     .Call(`_RMR_ICP_rcpparma_hello_world`)
 }

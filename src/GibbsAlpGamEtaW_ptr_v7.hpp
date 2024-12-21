@@ -1,5 +1,5 @@
-#ifndef GibbsAlpGamEtaW_ptr_hpp
-#define GibbsAlpGamEtaW_ptr_hpp
+#ifndef GibbsAlpGamEtaW_ptr_v7_hpp
+#define GibbsAlpGamEtaW_ptr_v7_hpp
 
 #include <RcppArmadillo.h>
 #include <Rcpp.h>
@@ -73,14 +73,14 @@ public:
   // Constructor definition
   // The complier deciedes which constructor to be called depending on 
   // the number of argument present with the object
-  Options_RMR(){
+  Options_RMR(uword nblocks){
     this -> agm = 0;
     this -> bgm = 0;
     this -> aal = 0;
     this -> bal = 0;
     this -> a = 1;
     this -> b = 1;
-    this -> v = 100;
+    this -> v = 100*ones(nblocks, 1);
     this -> maxIter = 3000;
     this -> thin = 10;
     this -> burnin = 2000;
@@ -88,7 +88,7 @@ public:
   }
   
   Options_RMR(double agm, double bgm, double aal, double bal, 
-                 double a, double b, double v, uword maxIter, uword thin, uword burnin, uword coreNum){
+                 double a, double b, vec v, uword maxIter, uword thin, uword burnin, uword coreNum){
     
     this -> agm = agm;
     this -> bgm = bgm;
@@ -110,7 +110,7 @@ public:
   double bal;
   double a;
   double b;
-  double v;
+  vec v;
   uword maxIter;
   uword thin;
   uword burnin;
@@ -138,8 +138,8 @@ public:
   
   int conspar;
   ivec Eta;
-  vec beta1sig, beta2sig, beta1mean, beta2mean, Mu2, MuA2;
-  double beta1, beta2, logw, invsgga2, invsgal2, v;
+  vec beta1sig, beta2sig, beta1mean, beta2mean, Mu2, MuA2, v;
+  double beta1, beta2, logw, invsgga2, invsgal2;
   
   field<vec> F4se1, F4se2, F4ginvsg2, F4GinvsG2, F4DinsGRinsG;
   field<vec> F4mu, F4muA, F4Rinsgmu,  F4RinsGmu, F4RinsGmuA;
@@ -157,7 +157,7 @@ public:
                        field<vec> &F4W, field<vec> &F4invsg2, field<vec> &F4invsG2,
                        arma::vec &beta1sig, arma::vec &beta2sig, arma::vec &beta1mean, arma::vec &beta2mean,
                        arma::ivec Eta, arma::vec &Mu2, arma::vec &MuA2,
-                       double &beta1, double &beta2, double &logw, double &invsgga2, double &invsgal2, double &v){ 
+                       double &beta1, double &beta2, double &logw, double &invsgga2, double &invsgal2, vec &v){ 
     this -> nblocks = nblocks;
     this -> F4se1 = F4se1;
     this -> F4se2 = F4se2;
@@ -203,4 +203,4 @@ public:
 };
 
 
-#endif /* GibbsAlpGamEtaW_ptr_hpp */
+#endif /* GibbsAlpGamEtaW_ptr_v7_hpp */

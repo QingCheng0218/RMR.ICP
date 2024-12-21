@@ -3,7 +3,7 @@
 #include <iostream>
 #include <thread>
 #include <mutex>
-#include "GibbsAlpGamEtaW_ptr.hpp"
+#include "GibbsAlpGamEtaW_ptr_v7.hpp"
 #include <random>
 
 using namespace Rcpp;
@@ -15,6 +15,7 @@ using namespace std;
 
 void paraBlock_GamAlpEtaW::loop_by_block_gibbs_GamAlpEtaW(int l){
   
+  double vl = v[l];
   vec se1l = F4se1(l, 0);
   vec se2l = F4se2(l, 0);
   vec ginvsg2l = F4ginvsg2(l, 0);
@@ -111,13 +112,18 @@ void paraBlock_GamAlpEtaW::loop_by_block_gibbs_GamAlpEtaW(int l){
   }
   
   // --------------------------------------------- #
-  // update W
+  // update W set Wlk = 1(normal distribution), if pl < 10
   // --------------------------------------------- #
-  for(int k = 0; k < pl; k++){
-    wa = (v + 1) / 2;
-    wb = (v + muAl[k] * muAl[k] * invsgal2) / 2;
-    Wl[k] = randg<double>(distr_param(wa, 1. / wb)); // Wl[k] = 1;
+  if(pl<10){
+    Wl = ones(pl, 1);
+  }else{
+    for(int k = 0; k < pl; k++){
+      wa = (vl + 1) / 2;
+      wb = (vl + muAl[k] * muAl[k] * invsgal2) / 2;
+      Wl[k] = randg<double>(distr_param(wa, 1. / wb)); // Wl[k] = 1;
+    }
   }
+
   // --------------------------------------------- #
   // update Eta
   // --------------------------------------------- #
@@ -136,11 +142,20 @@ void paraBlock_GamAlpEtaW::loop_by_block_gibbs_GamAlpEtaW(int l){
   
   invD1l = inv(D1l);
   invD0l = inv(D0l);
-  lik1 = 0.5*as_scalar(b1l.t()*invD1l*b1l) - 0.5*log(det(D1l));
+  // lik1 = 0.5*as_scalar(b1l.t()*invD1l*b1l) - 0.5*log(det(D1l));
+  lik1 = 0.5*as_scalar(b1l.t()*invD1l*b1l) - sum(log(diagvec(chol(D1l))));
   // lik0 = 0.5*as_scalar(b0l.t()*invD0l*b0l) - 0.5*log(det(D0l)) - 0.5*log(det(diagmat(Winvsgal2l)));
-  lik0 = 0.5*as_scalar(b0l.t()*invD0l*b0l) - 0.5*log(det(D0l)) - 0.5*log(prod(Winvsgal2l));
+  // lik0 = 0.5*as_scalar(b0l.t()*invD0l*b0l) - 0.5*log(det(D0l)) - 0.5*log(prod(Winvsgal2l));
+  lik0 = 0.5*as_scalar(b0l.t()*invD0l*b0l) - sum(log(diagvec(chol(D0l)))) - 0.5*log(prod(Winvsgal2l));
   
   
+  // if(l==2){
+  //   // cout<< D1l <<endl;
+  //   cout <<"det(D1l): "<< 0.5*log(det(D1l))<< " sum(log(diagvec(chol(D1l)))):" << sum(log(diagvec(chol(D1l)))) <<"\n" << endl;
+  //   cout << "diff1" << 0.5*log(det(D1l)) - sum(log(diagvec(chol(D1l)))) << endl;
+  //   cout << "diff0" << 0.5*log(det(D0l)) - sum(log(diagvec(chol(D0l)))) << endl;
+  //   cout << "---------------------"<<"\n"<<endl;
+  // }
   prob0 = lik1 - lik0 + logw;
   prob = 1. / (1 + exp(-prob0));
   eta = R::rbinom(1, prob);

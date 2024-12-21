@@ -7,8 +7,8 @@
 #include <thread>
 #include <mutex>
 
-#include "GibbsAlpGamEtaW_ptr.hpp"
-
+#include "GibbsAlpGamEtaW_ptr_v7.hpp"
+#include "function.hpp"
 #include <ctime>
 
 using namespace Rcpp;
@@ -16,7 +16,6 @@ using namespace arma;
 using namespace std;
 
 // [[Rcpp::depends(RcppArmadillo)]]
-
 
 #ifdef RCPP_USE_GLOBAL_ROSTREAM
 Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
@@ -146,6 +145,31 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// Cal_block_SimR
+mat Cal_block_SimR(umat block_inf, arma::umat& X, double lam);
+RcppExport SEXP _RMR_ICP_Cal_block_SimR(SEXP block_infSEXP, SEXP XSEXP, SEXP lamSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< umat >::type block_inf(block_infSEXP);
+    Rcpp::traits::input_parameter< arma::umat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< double >::type lam(lamSEXP);
+    rcpp_result_gen = Rcpp::wrap(Cal_block_SimR(block_inf, X, lam));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fastSigLm
+List fastSigLm(const arma::vec& y, const arma::mat& X);
+RcppExport SEXP _RMR_ICP_fastSigLm(SEXP ySEXP, SEXP XSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::vec& >::type y(ySEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type X(XSEXP);
+    rcpp_result_gen = Rcpp::wrap(fastSigLm(y, X));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpparma_hello_world
 arma::mat rcpparma_hello_world();
 RcppExport SEXP _RMR_ICP_rcpparma_hello_world() {
@@ -200,6 +224,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_RMR_ICP_RMRICPindep", (DL_FUNC) &_RMR_ICP_RMRICPindep, 5},
     {"_RMR_ICP_RMRICPSim", (DL_FUNC) &_RMR_ICP_RMRICPSim, 7},
     {"_RMR_ICP_RMRICP", (DL_FUNC) &_RMR_ICP_RMRICP, 6},
+    {"_RMR_ICP_Cal_block_SimR", (DL_FUNC) &_RMR_ICP_Cal_block_SimR, 3},
+    {"_RMR_ICP_fastSigLm", (DL_FUNC) &_RMR_ICP_fastSigLm, 2},
     {"_RMR_ICP_rcpparma_hello_world", (DL_FUNC) &_RMR_ICP_rcpparma_hello_world, 0},
     {"_RMR_ICP_rcpparma_outerproduct", (DL_FUNC) &_RMR_ICP_rcpparma_outerproduct, 1},
     {"_RMR_ICP_rcpparma_innerproduct", (DL_FUNC) &_RMR_ICP_rcpparma_innerproduct, 1},
