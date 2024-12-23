@@ -21,8 +21,18 @@ library(devtools)
 install_github("QingCheng0218/RMR.ICP@main")
 ```
 
-Usage
+Examples
 =========
+```
+library(RMR.ICP);
+# Run RMR.ICP using independent SNPs.
+result4indep = RMRICPindep(gamma1_Indep, Gamma2_Indep, se1_Indep, se2_Indep);
+beta1 = result4indep$beta.hat
+
+# Run RMR.ICP using correlated SNPs.
+RMRICPsim = RMRICPSim(gamma1_LD, Gamma2_LD, se1_LD, se2_LD, R, block_inf1);
+beta1 = RMRICPsim$beta.hat
+```
 
 References
 ==========
