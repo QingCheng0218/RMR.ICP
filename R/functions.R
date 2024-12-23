@@ -112,3 +112,18 @@ genSumStat <- function(x12, n1, n2, M, L, b1, Alrate, sigma2g, dfA, delta, h2a, 
               Gammah = Gammah, CHPindex = sort(ind)))
   
 }
+
+
+traceplot <- function(bhatpoint){
+  y <- bhatpoint
+  x <- 1:length(bhatpoint);
+  da <- cbind(x, y);
+  dat <- data.frame(da);
+  p1 <- ggplot(data = dat, aes(x= x, y = y))+  geom_line()  +
+    labs( x = paste0("GibbsSampleIndex"), y =  expression(hat(beta[1])));
+  p1 = p1 + theme(axis.title.x = element_text(size=10,face = "bold"),
+                  axis.text.x = element_text(size=12,face = "bold"),
+                  axis.title.y = element_text(size=10,face = "bold"),
+                  axis.text.y = element_text(size=12,face = "bold"));
+  return(p1);
+}
