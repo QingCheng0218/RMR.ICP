@@ -36,7 +36,6 @@ beta1 = RMRICPsim$beta.hat
 A more in-depth example can be found in the ['RMR.ICP' vignette](https://github.com/QingCheng0218/RMR.ICP/blob/main/vignettes/RMR-ICP.pdf)
 References
 
-==========
 Development
 ===========
   
