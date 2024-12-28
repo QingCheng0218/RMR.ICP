@@ -37,7 +37,6 @@ A more in-depth example can be found in the ['RMR.ICP' vignette](https://github.
 References
 
 ==========
-
 Development
 ===========
   
