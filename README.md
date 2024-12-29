@@ -33,8 +33,8 @@ beta1 = result4indep$beta.hat
 RMRICPsim = RMRICPSim(gamma1_LD, Gamma2_LD, se1_LD, se2_LD, R, block_inf1);
 beta1 = RMRICPsim$beta.hat
 ```
-A more in-depth example can be found in the ['RMR.ICP' vignette](https://github.com/QingCheng0218/RMR.ICP/blob/main/vignettes/RMR-ICP.pdf)
-References
+A more in-depth example can be found in the ['RMR.ICP' vignette](https://github.com/QingCheng0218/RMR.ICP/blob/main/vignettes/RMR-ICP.pdf).
+
 
 Development
 ===========
