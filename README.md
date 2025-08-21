@@ -51,4 +51,3 @@ Development
   
 This package is developed and maintained by Qing Cheng (qingcheng0218@gmail.com). 
   
-# RMR.ICP
