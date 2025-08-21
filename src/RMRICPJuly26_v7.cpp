@@ -171,7 +171,15 @@ ObjRMRindep RMRindepObj(arma::vec &gammah, arma::vec &Gammah, arma::vec &se1, ar
       Dm1j(0, 1) = Dm112[j];
       Dm1j(1, 0) = Dm112[j];
       Dm1j(1, 1) = Dm122[j];
-      mat invDm1j = inv(Dm1j);
+      // mat invDm1j = inv(Dm1j);
+      
+      mat invDm1j;
+      try {
+        invDm1j = inv(Dm1j);
+      } 
+      catch (...) {
+        invDm1j = pinv(Dm1j);
+      }
       
       lik1 = 0.5*as_scalar(bm1j*invDm1j*bm1j.t()) - 0.5*log(det(Dm1j));
       lik0 = 0.5*invdm0[j]*bm02[j] - 0.5*log(dm0Winvsgal2[j]);

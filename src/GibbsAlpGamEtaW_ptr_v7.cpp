@@ -140,8 +140,24 @@ void paraBlock_GamAlpEtaW::loop_by_block_gibbs_GamAlpEtaW(int l){
                   join_rows(beta2*insGRinsGl, diagmat(Winvsgal2l) + insGRinsGl));
   b1l = join_cols(ginvsg2l + beta2*GinvsG2l, GinvsG2l);
   
-  invD1l = inv(D1l);
-  invD0l = inv(D0l);
+  // invD1l = inv(D1l);
+
+  try {
+    invD1l = inv(D1l);
+  } 
+  catch (...) {
+    invD1l = pinv(D1l);
+  }
+  
+  // invD0l = inv(D0l);
+  try {
+    invD0l = inv(D0l);
+  } 
+  catch (...) {
+    invD0l = pinv(D0l);
+  }
+  
+  
   // lik1 = 0.5*as_scalar(b1l.t()*invD1l*b1l) - 0.5*log(det(D1l));
   lik1 = 0.5*as_scalar(b1l.t()*invD1l*b1l) - sum(log(diagvec(chol(D1l))));
   // lik0 = 0.5*as_scalar(b0l.t()*invD0l*b0l) - 0.5*log(det(D0l)) - 0.5*log(det(diagmat(Winvsgal2l)));
