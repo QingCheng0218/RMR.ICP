@@ -31,8 +31,6 @@ beta1 = result4indep$beta.hat # the causal effect estimate,
 beta1_se = result4indep$beta.se # the standard deviation of causal effect.
 beta1_pvalue = result4indep$beta.p.value # p-value calculated by RMR-ICP is two-sided based on the posterior distribution of causal effect.
 ProEta = result4indep$Etares # $$Pr(\eta=1|text{Data})$$, the posterior probabilities of IVs with idiosyncratic correlated horizontal pleiotropy effects.
-<<<<<<< HEAD
-=======
 
 # Run RMR.ICP using correlated SNPs.
 RMRICPsim = RMRICPSim(gamma1_LD, Gamma2_LD, se1_LD, se2_LD, R, block_inf1);
@@ -40,13 +38,7 @@ beta1 = RMRICPsim$beta.hat
 beta1_se = RMRICPsim$beta.se
 beta1_pvalue = RMRICPsim$beta.p.value
 ProEta = RMRICPsim$Etares
-```
 
->>>>>>> refs/remotes/origin/main
-
-# Run RMR.ICP using correlated SNPs.
-RMRICPsim = RMRICPSim(gamma1_LD, Gamma2_LD, se1_LD, se2_LD, R, block_inf1);
-beta1 = RMRICPsim$beta.hat
 ```
 References
 ==========
