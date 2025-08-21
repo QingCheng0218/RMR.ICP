@@ -40,7 +40,7 @@ beta1_pvalue = RMRICPsim$beta.p.value
 ProEta = RMRICPsim$Etares
 
 ```
-beta1:the causal effect estimate; beta1_se: the standard deviation of causal effect; beta1_pvalue:$$p$$-value calculated by RMR-ICP is two-sided based on the posterior distribution of causal effect;ProEta $$Pr(\eta=1|\text{Data})$$, the posterior probabilities of IVs with idiosyncratic correlated horizontal pleiotropy effects.
+beta1:the causal effect estimate; beta1_se: the standard deviation of causal effect; beta1_pvalue: $$p$$-value calculated by RMR-ICP is two-sided based on the posterior distribution of causal effect;ProEta: $$Pr(\eta=1|\text{Data})$$, the posterior probabilities of IVs with idiosyncratic correlated horizontal pleiotropy effects.
 
 Please refer to the ['RMR.ICP' vignette](https://github.com/QingCheng0218/RMR.ICP/blob/main/vignettes/RMR-ICP.pdf) for additional examples and comprehensive documentation.
 
@@ -49,6 +49,6 @@ Please refer to the ['RMR.ICP' vignette](https://github.com/QingCheng0218/RMR.IC
 Development
 ===========
   
-  This package is developed and maintained by Qing Cheng (qingcheng0218@gmail.com). 
+This package is developed and maintained by Qing Cheng (qingcheng0218@gmail.com). 
   
 # RMR.ICP
